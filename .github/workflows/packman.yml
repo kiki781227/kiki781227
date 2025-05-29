@@ -1,0 +1,35 @@
+name: Generate Pacman Contribution Graph
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Chaque jour à minuit
+  workflow_dispatch: # Permet de lancer manuellement l'action
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install pacman-canvas
+        run: |
+          npm install -g @kical/pacman-canvas
+
+      - name: Generate pacman graph
+        run: |
+          pacman-canvas --username kiki781227 --output-dir ./output
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add output/*.svg
+          git commit -m "Update pacman contribution graph" || echo "No changes to commit"
+          git push
