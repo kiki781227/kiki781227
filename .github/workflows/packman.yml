@@ -1,35 +1,52 @@
-name: Generate Pacman Contribution Graph
+# .github/workflows/pacman.yml
+name: GitHub Pacman Contribution Graph
 
 on:
+  # Tous les jours à minuit UTC
   schedule:
-    - cron: '0 0 * * *' # Chaque jour à minuit
-  workflow_dispatch: # Permet de lancer manuellement l'action
+    - cron: '0 0 * * *'
+  # Run manuellement depuis l’onglet Actions
+  workflow_dispatch:
+  # À chaque push sur main
+  push:
+    branches:
+      - main
 
 jobs:
   generate:
+    name: Génération & publication du graphe Pacman
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout repository
+      # 1️⃣ Checkout du dépôt
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # 3️⃣ Installer pacman-canvas
       - name: Install pacman-canvas
-        run: |
-          npm install -g @kical/pacman-canvas
+        run: npm install -g @kical/pacman-canvas
 
-      - name: Generate pacman graph
+      # 4️⃣ Générer les graphiques
+      - name: Generate Pacman Contribution Graph
         run: |
-          pacman-canvas --username kiki781227 --output-dir ./output
+          pacman-canvas \
+            --username ${{ github.repository_owner }} \
+            --output-dir ./dist \
+            --light-file pacman.svg \
+            --dark-file pacman-dark.svg
 
-      - name: Commit and push if changed
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add output/*.svg
-          git commit -m "Update pacman contribution graph" || echo "No changes to commit"
-          git push
+      # 5️⃣ Publier sur la branche `output`
+      - name: Deploy to Output Branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: output
+          commit_message: "🔄 Update Pacman contribution graph [skip ci]"
