@@ -32,7 +32,7 @@
 
 ###
 
-<h2 align="left">Mes contacts</h2>
+<h2 align="left">Contact</h2>
 
 ###
 
@@ -42,12 +42,6 @@
   <a href="https://www.linkedin.com/in/kiady-589941306/" target="_blank">
     <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo"  />
   </a>
-  <a href="mailto:kiadymrabenarivo@gmail.com" title="Envoyer un mail à Kiady">
-    <img src="https://img.shields.io/static/v1?message=Gmail&logo=gmail&label=&color=D14836&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="gmail logo"  />
-  </a>
-
- [![Contact via Issues](https://img.shields.io/static/v1?label=Contact&message=Issue&color=blue&style=for-the-badge)](https://github.com/kiki781227/kiki781227/issues/new/choose)
-
 </div>
 
 ###
