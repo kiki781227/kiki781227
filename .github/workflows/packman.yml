@@ -1,44 +1,38 @@
 # .github/workflows/pacman.yml
-name: GitHub Pacman Contribution Graph
+name: 🟡 Pac-Man Contribution Graph
 
 on:
   schedule:
-    - cron: '0 0 * * *'       # tous les jours à minuit UTC
-  workflow_dispatch:         # lancement manuel
+    - cron: '0 0 * * *'        # Tous les jours à minuit UTC
   push:
     branches:
-      - main
+      - main                  # À chaque push sur main
+  workflow_dispatch:          # Déclenchement manuel possible
+
+permissions:
+  contents: write             # Pour pouvoir pousser dans output
 
 jobs:
-  generate:
-    name: Génération & publication du graphe Pacman
+  build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🧰 Setup Node.js
-        uses: actions/setup-node@v3
+      - name: 🌐 Generate Pac-Man graphs
+        # on pointe vers la dernière version stable, ici on pin à v1.0.14
+        uses: abozanona/pacman-contribution-graph@v1.0.14
         with:
-          node-version: '18'
+          github_user_name: ${{ github.repository_owner }}
+          # facultatif : dossier de sortie, défaut = ./dist
+          output_dir: dist
 
-      - name: 📦 Install pacman-canvas
-        run: npm install -g pacman-canvas
-
-      - name: 🎮 Generate Pacman Contribution Graph
-        run: |
-          pacman-canvas \
-            --username ${{ github.repository_owner }} \
-            --output-dir ./dist \
-            --light-file pacman.svg \
-            --dark-file pacman-dark.svg
-
-      - name: 🚀 Deploy to Output Branch
+      - name: 🚀 Deploy to “output” branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: output
-          commit_message: "🔄 Update Pacman contribution graph [skip ci]"
+          commit_message: "🔄 Update Pac-Man contribution graph [skip ci]"
