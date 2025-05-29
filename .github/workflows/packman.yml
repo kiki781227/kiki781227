@@ -2,12 +2,9 @@
 name: GitHub Pacman Contribution Graph
 
 on:
-  # Tous les jours à minuit UTC
   schedule:
-    - cron: '0 0 * * *'
-  # Run manuellement depuis l’onglet Actions
-  workflow_dispatch:
-  # À chaque push sur main
+    - cron: '0 0 * * *'       # tous les jours à minuit UTC
+  workflow_dispatch:         # lancement manuel
   push:
     branches:
       - main
@@ -19,22 +16,18 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      # 1️⃣ Checkout du dépôt
-      - name: Checkout Repository
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
-      - name: Setup Node.js
+      - name: 🧰 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 3️⃣ Installer pacman-canvas
-      - name: Install pacman-canvas
-        run: npm install -g @kical/pacman-canvas
+      - name: 📦 Install pacman-canvas
+        run: npm install -g pacman-canvas
 
-      # 4️⃣ Générer les graphiques
-      - name: Generate Pacman Contribution Graph
+      - name: 🎮 Generate Pacman Contribution Graph
         run: |
           pacman-canvas \
             --username ${{ github.repository_owner }} \
@@ -42,8 +35,7 @@ jobs:
             --light-file pacman.svg \
             --dark-file pacman-dark.svg
 
-      # 5️⃣ Publier sur la branche `output`
-      - name: Deploy to Output Branch
+      - name: 🚀 Deploy to Output Branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
