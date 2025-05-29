@@ -46,7 +46,8 @@
     <img src="https://img.shields.io/static/v1?message=Gmail&logo=gmail&label=&color=D14836&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="gmail logo"  />
   </a>
 
-  [![Gmail](https://img.shields.io/static/v1?message=Gmail&logo=gmail&label=&color=D14836&logoColor=white&labelColor=&style=for-the-badge)](mailto:kiadymrabenarivo@gmail.com)
+ [![Contact via Issues](https://img.shields.io/static/v1?label=Contact&message=Issue&color=blue&style=for-the-badge)](https://github.com/kiki781227/kiki781227/issues/new/choose)
+
 </div>
 
 ###
