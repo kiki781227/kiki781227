@@ -1,3 +1,4 @@
+# .github/workflows/pacman.yml
 name: 🟡 Pac-Man Contribution Graph
 
 on:
@@ -6,7 +7,7 @@ on:
   push:
     branches:
       - main                  # À chaque push sur main
-  workflow_dispatch:          # Déclenchement manuel possible
+  workflow_dispatch:          # Déclenchement manuel
 
 permissions:
   contents: write             # Nécessaire pour push vers output
@@ -21,10 +22,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🌐 Generate Pac-Man graphs
-        uses: abozanona/pacman-contribution-graph@v1.0.14
+        # On utilise @main car les tags v1.0.x ne sont pas publiés dans le dépôt action
+        uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
           output_dir: dist
+
+      - name: 🐛 Debug – lister le contenu de dist
+        run: |
+          echo ">>> Contenu de ./dist :"
+          ls -R dist
 
       - name: 🚀 Deploy to “output” branch
         uses: crazy-max/ghaction-github-pages@v2.1.3
